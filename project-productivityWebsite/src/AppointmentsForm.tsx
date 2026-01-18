@@ -1,31 +1,44 @@
 import { useState } from "react";
 
-//Type für State (html inputs liefern immer string)
+/**
+ * 1) TYPES
+ * - InputType: Daten, die Bei Inputs enstethen
+ * - AppointmenType: Daten, die wirklich gespeichert werden
+ */
 interface InputType {
   title: string;
   date: string;
   time: string;
 }
 
-const initialState = { title: "", date: "", time: "" };
-
-//Typ für state
-interface AppointmentsType {
+interface Appointment {
   id: number;
   title: string;
   date: string;
   time: string;
 }
 
+/**
+ * 2) CONSTANTS
+ * Startzustand für das Formular
+ */
+const initialState = { title: "", date: "", time: "" };
+
 function AppointmentsForm() {
-  //input: aktueller Zustand, setInput: Funktion, die zusatnd ändert
-  //useState<InputType>(initialState): Startwerte;
+  /**
+   * 3) STATE
+   * - input: aktueller Zustand/Inhalt des Formulars , setInput: Funktion, die zustand ändert
+   * - ähnlich für appointments
+   */
   const [input, setInput] = useState<InputType>(initialState);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-  //Funktion zum ändern Status
-  //"..."" sonst würde man die andeen inuts verlieren
-  //e.target.value : das was man ins textfeld tippt
-
+  /**
+   * 4) FORM HANDLER
+   * - Änderung von Titel, Datum, Zeit (aktualisierung State)
+   *-  Wichtik: kopieren des alten State (...input), sonst verlieren wir andere Felder
+   * - e.target.value : das was man ins textfeld tippt
+   */
   function setTitle(e: any) {
     setInput({ ...input, title: e.target.value });
   }
@@ -37,33 +50,42 @@ function AppointmentsForm() {
   function setTime(e: any) {
     setInput({ ...input, time: e.target.value });
   }
-  //---------------------
 
-  const [appointment, setAppointments] = useState<AppointmentsType[]>([]);
+  /**
+   * 5) APPOINTMENT ACTIONS
+   * - Appointment erstellen
+   * - Appointment löschen
+   */
+
   function handleAddAppointment(input: InputType) {
-    const newAppointment: AppointmentsType = {
-      id: Date.now(),
+    const newAppointment: Appointment = {
+      id: Date.now(), //einfache ID
       title: input.title,
       date: input.date,
       time: input.time,
     };
-    setAppointments([...appointment, newAppointment]);
+    setAppointments([...appointments, newAppointment]);
     setInput(initialState);
   }
-  //____________
 
   function handleDeleteAppointment(idToDelete: number) {
     setAppointments(
-      appointment.filter((appointment) => appointment.id !== idToDelete)
+      appointments.filter((appointment) => appointment.id !== idToDelete)
     );
   }
-  // Valisierung------------
+  /**
+   * 6) VALIDATION
+   * - nur wenn alle Felder gefüllt, kann man Button clicken
+   * - trim() entfernt Leerzeichen am Anfang/Ende.
+   */
 
-  const isValid = input.title !== "" && input.date !== "" && input.time !== "";
+  const isValid =
+    input.title.trim() !== "" && input.date !== "" && input.time !== "";
   console.log(input);
 
-  //OnChange: wenn Wert diese Inputs ändert, dann rufe entsprechende Funktion auf
-  //value für controlled components
+  /**
+   * 7) RENDER
+   */
   return (
     <>
       <h2>📅 Appointments</h2>
@@ -90,7 +112,7 @@ function AppointmentsForm() {
       </button>
 
       <div>
-        {appointment.map((appointment) => (
+        {appointments.map((appointment) => (
           <li key={appointment.id}>
             {appointment.title} {appointment.date} {appointment.time}
             <button onClick={() => handleDeleteAppointment(appointment.id)}>
