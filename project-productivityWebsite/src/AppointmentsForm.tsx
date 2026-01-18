@@ -11,7 +11,10 @@ const initialState = { title: "", date: "", time: "" };
 
 //Typ für state
 interface AppointmentsType {
-  appointment: InputType;
+  id: number;
+  title: string;
+  date: string;
+  time: string;
 }
 
 function AppointmentsForm() {
@@ -36,11 +39,27 @@ function AppointmentsForm() {
   }
   //---------------------
 
-  const [appointment, setAppointments] = useState<InputType[]>([]);
-  function handleAddAppointment(newAppointment: InputType) {
+  const [appointment, setAppointments] = useState<AppointmentsType[]>([]);
+  function handleAddAppointment(input: InputType) {
+    const newAppointment: AppointmentsType = {
+      id: Date.now(),
+      title: input.title,
+      date: input.date,
+      time: input.time,
+    };
     setAppointments([...appointment, newAppointment]);
     setInput(initialState);
   }
+  //____________
+
+  function handleDeleteAppointment(idToDelete: number) {
+    setAppointments(
+      appointment.filter((appointment) => appointment.id !== idToDelete)
+    );
+  }
+  // Valisierung------------
+
+  const isValid = input.title !== "" && input.date !== "" && input.time !== "";
   console.log(input);
 
   //OnChange: wenn Wert diese Inputs ändert, dann rufe entsprechende Funktion auf
@@ -66,16 +85,17 @@ function AppointmentsForm() {
         value={input.time}
         onChange={(e) => setTime(e)}
       ></input>
-      <button onClick={() => handleAddAppointment(input)}>
+      <button disabled={!isValid} onClick={() => handleAddAppointment(input)}>
         Add Appointment
       </button>
 
       <div>
-        {appointment.map((appointment, index) => (
-          <li key={index}>
-            {appointment.title}
-            {appointment.date}
-            {appointment.time}
+        {appointment.map((appointment) => (
+          <li key={appointment.id}>
+            {appointment.title} {appointment.date} {appointment.time}
+            <button onClick={() => handleDeleteAppointment(appointment.id)}>
+              Delete
+            </button>
           </li>
         ))}
       </div>
