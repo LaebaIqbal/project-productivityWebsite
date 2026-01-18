@@ -88,38 +88,52 @@ function AppointmentsForm() {
    */
   return (
     <>
-      <h2>📅 Appointments</h2>
-      <h3>Title</h3>
-      <input
-        type="text"
-        value={input.title}
-        onChange={(e) => setTitle(e)}
-      ></input>
-      <h3>Date</h3>
-      <input
-        type="date"
-        value={input.date}
-        onChange={(e) => setDate(e)}
-      ></input>
-      <h3>Time</h3>
-      <input
-        type="time"
-        value={input.time}
-        onChange={(e) => setTime(e)}
-      ></input>
-      <button disabled={!isValid} onClick={() => handleAddAppointment(input)}>
-        Add Appointment
-      </button>
+      <div className="mainContainer">
+        <div className="form">
+          <h2>📅 Appointments</h2>
+          <h3>Title</h3>
+          <input
+            className="input"
+            type="text"
+            value={input.title}
+            onChange={(e) => setTitle(e)}
+          ></input>
+          <h3>Date</h3>
+          <input
+            className="input"
+            type="date"
+            value={input.date}
+            onChange={(e) => setDate(e)}
+          ></input>
+          <h3>Time</h3>
+          <input
+            className="input"
+            type="time"
+            value={input.time}
+            onChange={(e) => setTime(e)}
+          ></input>
+          <button
+            className="button"
+            disabled={!isValid}
+            onClick={() => handleAddAppointment(input)}
+          >
+            Add Appointment
+          </button>
+        </div>
 
-      <div>
-        {appointments.map((appointment) => (
-          <li key={appointment.id}>
-            {appointment.title} {appointment.date} {appointment.time}
-            <button onClick={() => handleDeleteAppointment(appointment.id)}>
-              Delete
-            </button>
-          </li>
-        ))}
+        <div className="appointmentList">
+          {appointments.map((appointment) => (
+            <li key={appointment.id} className="appointmentItem">
+              {appointment.title} {appointment.date} {appointment.time}
+              <button
+                className="delteButton"
+                onClick={() => handleDeleteAppointment(appointment.id)}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </div>
       </div>
     </>
   );
