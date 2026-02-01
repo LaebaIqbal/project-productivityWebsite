@@ -1,4 +1,5 @@
 import Appointments from "./Appointments";
+import "./App.css";
 function App() {
   return (
     <>

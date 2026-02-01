@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./AppointmentsForm.css";
 
 /**
  * 1) TYPES
@@ -90,35 +91,41 @@ function AppointmentsForm() {
     <>
       <div className="mainContainer">
         <div className="form">
-          <h2>📅 Appointments</h2>
-          <h3>Title</h3>
-          <input
-            className="input"
-            type="text"
-            value={input.title}
-            onChange={(e) => setTitle(e)}
-          ></input>
-          <h3>Date</h3>
-          <input
-            className="input"
-            type="date"
-            value={input.date}
-            onChange={(e) => setDate(e)}
-          ></input>
-          <h3>Time</h3>
-          <input
-            className="input"
-            type="time"
-            value={input.time}
-            onChange={(e) => setTime(e)}
-          ></input>
-          <button
-            className="button"
-            disabled={!isValid}
-            onClick={() => handleAddAppointment(input)}
-          >
-            Add Appointment
-          </button>
+          <h2 className="row1">📅 Appointments</h2>
+
+          <div className="row2">
+            <h3>Title</h3>
+            <input
+              className="input"
+              type="text"
+              value={input.title}
+              onChange={(e) => setTitle(e)}
+            ></input>
+            <h3>Date</h3>
+            <input
+              className="input"
+              type="date"
+              value={input.date}
+              onChange={(e) => setDate(e)}
+            ></input>
+          </div>
+
+          <div className="row3">
+            <h3>Time</h3>
+            <input
+              className="input"
+              type="time"
+              value={input.time}
+              onChange={(e) => setTime(e)}
+            ></input>
+            <button
+              className="button"
+              disabled={!isValid}
+              onClick={() => handleAddAppointment(input)}
+            >
+              Add Appointment
+            </button>
+          </div>
         </div>
 
         <div className="appointmentList">
